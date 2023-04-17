@@ -68,7 +68,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xl-4">
+    {{-- <div class="col-xl-4">
         <div class="card shadow">
             <div class="card-header bg-transparent">
                 <div class="row align-items-center">
@@ -85,7 +85,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     </div>
 
     <div class="row mt-5">
