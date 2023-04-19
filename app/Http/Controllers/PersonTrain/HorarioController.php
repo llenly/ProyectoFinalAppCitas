@@ -5,6 +5,8 @@ namespace App\Http\Controllers\PersonTrain;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Horarios;
+use Carbon\Canbon;
+
 
 class HorarioController extends Controller
 {
@@ -13,7 +15,24 @@ class HorarioController extends Controller
         $days = [
             'Lunes','Martes','Miercoles','Jueves','Viernes','Sabado','Domingo'
         ];
-        return view('horario', compact('days'));
+
+        //obtener los datos del personal taroner que ha inciado sesion
+        $horarios = Horarios::where('user_id' , auth()->id())->get();
+
+        //quitar los min de la hora que viene de la db carbon para cambiar el formato de la hora 
+        $horarios->map(function($horarios){
+            $horarios->morning_start = (new Carbon($horarios->morning_start))->format('g:i A');
+            $horarios->morning_end = (new Carbon($horarios->morning_end))->format('g:i A');
+            $horarios->afternoon_start = (new Carbon($horarios->afternoon_start))->format('g:i A');
+            $horarios->afternoon_end = (new Carbon($horarios->afternoon_end))->format('g:i A');
+        });
+
+         //ver los cambios en el formato de la fecha 
+        //  dd($horarios->toArray());
+
+
+        //inytectar en la vista la var horarios 
+        return view('horario', compact('days', 'horarios'));
     }
 
     //metodo para guardar los horarios 
