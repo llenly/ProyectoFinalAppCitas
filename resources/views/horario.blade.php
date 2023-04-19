@@ -23,6 +23,18 @@
                         {{ session('notificacion') }}
                     </div>
                 @endif
+    {{-- mostrar mensaje de notificacion de error  --}}
+                 @if (session('erros'))
+                    <div class="alert alert-danger" role="alert">
+                    Los cambios estan guardados pero se encontraron las siguientes novedades:
+                    <ul>
+                      @foreach (sessions('errors') as $error )
+                          <li>  {{ $error }}</li>
+                      @endforeach
+                    </ul>
+                        {{ session('notificacion') }}
+                    </div>
+                @endif
 
             </div>
 
@@ -62,7 +74,7 @@
                             <div class="col">
                                 <select class="form-control" name="morning_start[]">
                                     @for ($i = 8; $i <= 11; $i++)
-                                        <option value="{{ $i }}: 00">{{ $i }}:00 AM
+                                        <option value="{{ ($i < 10 ? '0' : '') . $i }}: 00">{{ $i }}:00 AM
                                             {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
                                             @if ($i . ':00 AM' == $horario->morning_start)
                                                 selected
@@ -70,7 +82,7 @@
                                             {{ $i }}:00 AM
                                         </option>
 
-                                        <option value="{{ $i }}: 50">{{ $i }}:50 AM
+                                        <option value="{{($i < 10 ? '0' : '') . $i }}: 50">{{ $i }}:50 AM
                                             {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
                                             @if ($i . ':50 AM' == $horario->morning_start)
                                                 selected
@@ -85,7 +97,7 @@
                             <div class="col">
                                 <select class="form-control" name="morning_end[]">
                                     @for ($i = 8; $i <= 11; $i++)
-                                        <option value="{{ $i }}:00">{{ $i }}:00 AM
+                                        <option value="{{($i < 10 ? '0' : '') . $i }}:00">{{ $i }}:00 AM
                                             {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
                                             @if ($i . ':00 AM' == $horario->morning_end)
                                                 selected
@@ -94,7 +106,7 @@
                                         </option>
 
                                         </option>
-                                        <option value="{{ $i }}:50 ">{{ $i }}:50 AM
+                                        <option value="{{($i < 10 ? '0' : '') . $i }}:50 ">{{ $i }}:50 AM
                                             {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
                                             @if ($i . ':50 AM' == $horario->morning_end)
                                                 selected
