@@ -1,13 +1,16 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 //importar el modelo user para poder usarlo en el metodo index 
 use App\Models\User;
-class PersonalTrainerController extends Controller
+use App\Http\Controllers\Controller;
+
+
+class ClientesController extends Controller
 {
-    /**
+   /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -15,9 +18,9 @@ class PersonalTrainerController extends Controller
     public function index()
     {
         //
-        //var para hacer un forecha en el form de las vistas index
-        $personalTrainers=User::personalTrainers()->get();
-        return view('personalTrainers.index', compact('personalTrainers'));
+        //var para hacer un forecha en el form de las vistas index y con el metodo get llamamos los datos de cada cliente segun su rol , funcion creada en el modelo user
+        $clientes=User::clientes()->paginate(4);
+        return view('clientes.index', compact('clientes'));
     }
 
     /**
@@ -28,20 +31,19 @@ class PersonalTrainerController extends Controller
     public function create()
     {
         //
-        return view('personalTrainers.create');
+        return view('clientes.create');
     }
 
- /**
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    
     public function store(Request $request)
     {
-        //estos campos tambien hay que crealos en el modelo user por uqe lo he creado yo y no vienen 
-        $rules = [
+         //estos campos tambien hay que crealos en el modelo user por uqe lo he creado yo y no vienen 
+         $rules = [
             'name'=>'required|min:5',
             'email'=>'required|email',
             'cedula'=>'required|digits:8',
@@ -68,18 +70,16 @@ class PersonalTrainerController extends Controller
         User::create(
             $request->only('name','email','cedula','address','phone')
             +[
-                'role'=> 'personaltrainer',
+                'role'=> 'cliente',
                  'password'=> bcrypt($request->input('password'))
             ]
         );
 
        
-        $notificacion = 'El personal Trainer se ha registrado correctamente';
-        return redirect('/personalTrainers')->with(compact('notificacion'));
+        $notificacion = 'El cliente se ha registrado correctamente';
+        return redirect('/clientes')->with(compact('notificacion'));
 
     }
-
-   
 
     /**
      * Display the specified resource.
@@ -100,8 +100,8 @@ class PersonalTrainerController extends Controller
      */
     public function edit($id)
     {
-        $personalTrainer = User::personalTrainers()->findOrFail($id);
-        return view('personalTrainers.edit', compact('personalTrainer'));
+        $cliente = User::clientes()->findOrFail($id);
+        return view('clientes.edit', compact('cliente'));
     }
 
     /**
@@ -119,7 +119,7 @@ class PersonalTrainerController extends Controller
             'email'=>'required|email',
             'cedula'=>'required|digits:8',
             'address'=>'nullable|min:6',
-            'phone'=>'required',
+           // 'phone'=>'required',
 
         ];
         $messages = [
@@ -130,11 +130,11 @@ class PersonalTrainerController extends Controller
             'cedula.required'=>'La cedula es obligatoria ',
             'cedula.digits'=>'La cedula debe tener mas de 6 digitos',
             'address.min'=>'La direccion debe tener al menos 6 caracteres  ',
-            'phone.required'=>'El telefono es obligatorio',
+           // 'phone.required'=>'El telefono es obligatorio',
         ];
         //mostramos los mesnajes de validadcion 
         $this->validate($request, $rules, $messages);
-        $user = User::personalTrainers()->findOrFail($id);
+        $user = User::clientes()->findOrFail($id);
 
         
 
@@ -150,12 +150,10 @@ class PersonalTrainerController extends Controller
         $user->save();
 
        
-        $notificacion = 'La informacion del  personal Trainer se ha actualizado correctamente';
-        return redirect('/personalTrainers')->with(compact('notificacion'));
+        $notificacion = 'La informacion del  cliente se ha actualizado correctamente';
+        return redirect('/clientes')->with(compact('notificacion'));
 
     }
-
-    
 
     /**
      * Remove the specified resource from storage.
@@ -165,11 +163,10 @@ class PersonalTrainerController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::personalTrainers()->findOrFail($id);
-        $personalName = $user->name;
+        $user = User::Clientes()->findOrFail($id);
+        $clienteName = $user->name;
         $user->delete();
-        $notificacion = "El personal trainer  $personalName se ha eliminado correctamente ";
-        return redirect('/personalTrainers')->with(compact('notificacion'));
-
+        $notificacion = "El cliente  $clienteName se ha eliminado correctamente ";
+        return redirect('/clientes')->with(compact('notificacion'));
     }
 }

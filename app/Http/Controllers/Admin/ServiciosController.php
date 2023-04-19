@@ -1,24 +1,27 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 // hay que importar el modelo de servicios 
 use App\Models\Servicios;
+use App\Http\Controllers\Controller;
 
 
 class ServiciosController extends Controller
 {
 
-    public function __construct(){
-        $this->middleware('auth');
-    }
+
+    // public function __construct(){
+    //     $this->middleware('auth'); este viene por defecto enlaravel 
+    // }
 
     //metodos dde las peticiones de servicios , create, index(logueo)edit, por cada metodo se crea una vista 
 
     // en este metodo inyectamos los datos que vienen del form de crear servicio y los mostramos en la vista index en el form con un foreach
     public function index(){
         $servicios = Servicios::all();
+      
         return view('servicios.index', compact('servicios'));
     }
 

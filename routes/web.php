@@ -20,31 +20,44 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// RUTAS PARA MIDDLEWAREADMIN
+//este admin viene del archivo kernel 
+
+Route::middleware(['auth','admin'])->group(function (){
 
 
+//RUTA PARA ESPECIALIDADES
+
+    
 //rutas para servicios 
 
-// Auth::routes();
+ Route::get('/servicios', [App\Http\Controllers\admin\ServiciosController::class, 'index']);
 
- Route::get('/servicios', [App\Http\Controllers\ServiciosController::class, 'index']);
+ Route::get('/servicios/create', [App\Http\Controllers\admin\ServiciosController::class, 'create']);
 
- Route::get('/servicios/create', [App\Http\Controllers\ServiciosController::class, 'create']);
+ Route::get('/servicios/{servicios}/edit', [App\Http\Controllers\admin\ServiciosController::class, 'edit']);
 
- Route::get('/servicios/{servicios}/edit', [App\Http\Controllers\ServiciosController::class, 'edit']);
+ Route::post('/servicios', [App\Http\Controllers\admin\ServiciosController::class, 'sendData']);
 
- Route::post('/servicios', [App\Http\Controllers\ServiciosController::class, 'sendData']);
+ Route::put('/servicios/{servicios}', [App\Http\Controllers\admin\ServiciosController::class, 'update']);
 
- Route::put('/servicios/{servicios}', [App\Http\Controllers\ServiciosController::class, 'update']);
-
- Route::delete('/servicios/{servicios}', [App\Http\Controllers\ServiciosController::class, 'destroy']);
+ Route::delete('/servicios/{servicios}', [App\Http\Controllers\admin\ServiciosController::class, 'destroy']);
 
 
  //RUTAS PARA LOS PERSONAL TRAINER
 
- Route::resource('personalTrainers', 'App\Http\Controllers\PersonalTrainerController');
+ Route::resource('personalTrainers', 'App\Http\Controllers\admin\PersonalTrainerController');
 
-//ruta para clientes
- Route::resource('clientes', 'App\Http\Controllers\ClientesController');
+//RUTAS PARA CLIENTES
+ Route::resource('clientes', 'App\Http\Controllers\admin\ClientesController');
 // Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+});
+
+
+
+
+

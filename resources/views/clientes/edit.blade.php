@@ -1,6 +1,3 @@
-<?php
-    use Illuminate\Support\Str;
-?>
 
 
 @extends('layouts.panel')
@@ -10,7 +7,7 @@
         <div class="card-header border-0">
             <div class="row align-items-center">
                 <div class="col">
-                    <h3 class="mb-0">Nuevos Clientes</h3>
+                    <h3 class="mb-0">Editar Cliente</h3>
                 </div>
                 <div class="col text-right">
                     <a href="{{ url('/clientes') }}" class="btn btn-sm btn-success"><i
@@ -38,37 +35,39 @@
 
 
 
-          <form action="{{ (url('/clientes')) }}" method="POST">
+          <form action="{{ (url('/clientes/'.$cliente->id)) }}" method="POST">
             @csrf
+            @method('PUT')
                 <div class="form-group">
                     <label for="name">Nombre del Cliente</label>
-                    <input type="text" name="name" class="form-control" value ="{{ old('name') }}" required>
+                    <input type="text" name="name" class="form-control" value ="{{ old('name', $cliente->name) }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electronico</label>
-                    <input type="text" name="email" class="form-control" value ="{{ old('email') }}" required>
+                    <input type="text" name="email" class="form-control" value ="{{ old('email', $cliente->email) }}">
                 </div>
                  <div class="form-group">
                     <label for="cedula">Cedula</label>
-                    <input type="text" name="cedula" class="form-control" value ="{{ old('cedula') }}" required>
+                    <input type="text" name="cedula" class="form-control" value ="{{ old('cedula', $cliente->cedula) }}">
                 </div>
                 <div class="form-group">
                     <label for="address">Direccion</label>
-                    <input type="text" name="address" class="form-control" value ="{{ old('address') }}" required>
+                    <input type="text" name="address" class="form-control" value ="{{ old('address', $cliente->address) }}">
                 </div>
                  <div class="form-group">
                     <label for="phone">Telefono / Movil</label>
-                    <input type="text" name="phone" class="form-control" value ="{{ old('phone') }}" required>
+                    <input type="text" name="phone" class="form-control" value ="{{ old('phone', $cliente->phone) }}">
                 </div>
 
                  <div class="form-group">
                     <label for="phone">Contraseña</label>
-                    <input type="text" name="phone" class="form-control" value ="{{ old('password', Str::random(8)) }}" required>
+                    <input type="text" name="phone" class="form-control">
+                    <small class="text-warning">Solo llena el campo si decea cambiar la Contraseña</small>
                 </div>
                  {{-- a medida que se crean mas servicios se crean campos  --}}
 
 
-                <button type="submit" class="btn btn-sm btn-primary">Crear Cliente</button>
+                <button type="submit" class="btn btn-sm btn-primary">Guardar Cambios</button>
             </form>
 
         </div>

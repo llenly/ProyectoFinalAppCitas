@@ -30,9 +30,6 @@
          @endif
 
 
-
-
-
           <form action="{{ (url('/servicios')) }}" method="POST">
             @csrf
                 <div class="form-group">

@@ -68,5 +68,10 @@
                 </tbody>
             </table>
         </div>
+
+        
+        {{-- <div class="card-body">
+        {{  $servicios->links() }}
+        </div> --}}
     </div>
 @endsection

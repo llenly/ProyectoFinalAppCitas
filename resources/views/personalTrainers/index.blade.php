@@ -68,5 +68,9 @@
                 </tbody>
             </table>
         </div>
+
+        <div class="card-body">
+        {{  $personalTrainers->links() }}
+        </div>
     </div>
 @endsection
