@@ -61,7 +61,11 @@ Route::middleware(['auth','admin'])->group(function (){
 // creardo rol para los personal trainer vean su pagina y el horario con su controllador y su vista
 Route::middleware(['auth','persontrain'])->group(function (){
 
-    Route::get('/horiario', [App\Http\Controllers\persontrain\HorarioController::class, 'edit']);
+    Route::get('/horario', [App\Http\Controllers\persontrain\HorarioController::class, 'edit']);
 
-    Route::post('/horiario', [App\Http\Controllers\persontrain\HorarioController::class, 'store']);
+    Route::post('/horario', [App\Http\Controllers\persontrain\HorarioController::class, 'store']);
 });
+
+//rutas para guardar citas 
+Route::get('/resetvarcitas/create', [App\Http\Controllers\AppointmentController::class, 'create']);
+Route::post('/miscitas', [App\Http\Controllers\AppointmentController::class, 'store']);

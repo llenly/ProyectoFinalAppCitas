@@ -8,10 +8,10 @@
 </h6>
 
 <ul class="navbar-nav">
-
+{{-- mmenu para aadmin --}}
     @if (auth()->user()->role == 'admin')
         <li class="nav-item  active ">
-            <a class="nav-link  active " href="./index.html">
+            <a class="nav-link  active " href="./home.html">
                 <i class="ni ni-tv-2 text-danger"></i> Dashboard
             </a>
         </li>
@@ -30,7 +30,7 @@
                 <i class="ni ni-single-02 text-warning"></i> Clientes
             </a>
         </li>
-        {{-- acceso a la pagina de personal trainer segin el solo los personal trainer  --}}
+  {{-- acceso a la pagina de personal trainer segin el solo los personal trainer  --}}
     @elseif (auth()->user()->role == 'persontrain')
         <li class="nav-item">
             <a class="nav-link" href="/horario">
@@ -40,7 +40,7 @@
 
         <li class="nav-item">
             <a class="nav-link" href="#">
-                <i class="fas fa-clock text-info"></i>Mis Citas
+                <i class="fas fa-clock text-info"></i>Mis Citas 
             </a>
         </li>
         <li class="nav-item">
@@ -49,6 +49,7 @@
             </a>
         </li>
     @else
+    {{-- menu clientes --}}
         <li class="nav-item">
             <a class="nav-link" href="/horario">
                 <i class="ni ni-calendar-grid-58 text-primary"></i>Reservar Cita
@@ -81,7 +82,7 @@
     </li>
 
 
-
+{{-- menu y vista pata el admin --}}
     @if (auth()->user()->role == 'admin')
         <!-- Divider -->
         <hr class="my-3">

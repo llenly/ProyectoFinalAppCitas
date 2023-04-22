@@ -48,9 +48,9 @@ class User extends Authenticatable
 
     //funcion para filytar los usuarios y devolver cada usuario en su pagina correspondiente segun su rol con el scope usando cada funcion en los contraladores correspondientes 
     
-    public function scopePersonalTrainers($query){
+    public function scopePersontrains($query){
 
-        return $query->where('role', 'personalTrainer');
+        return $query->where('role', 'persontrain');
      }
 
      public function scopeClientes($query){

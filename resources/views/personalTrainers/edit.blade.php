@@ -36,28 +36,28 @@ use Illuminate\Support\Str;
 
 
 
-            <form action="{{ url('/personalTrainers/'.$personalTrainer->id) }}" method="POST">
+            <form action="{{ url('/personalTrainers/'.$persontrain->id) }}" method="POST">
                 @csrf
                 @method('PUT')
                 <div class="form-group">
                     <label for="name">Nombre del PersonalTrainer</label>
-                    <input type="text" name="name" class="form-control" value="{{ old('name', $personalTrainer->name) }}">
+                    <input type="text" name="name" class="form-control" value="{{ old('name', $persontrain->name) }}">
                 </div>
                 <div class="form-group">
                     <label for="email">Correo Electronico</label>
-                    <input type="text" name="email" class="form-control" value="{{ old('email', $personalTrainer->email) }}" >
+                    <input type="text" name="email" class="form-control" value="{{ old('email', $persontrain->email) }}" >
                 </div>
                 <div class="form-group">
                     <label for="cedula">Cedula</label>
-                    <input type="text" name="cedula" class="form-control" value="{{ old('cedula',$personalTrainer->cedula) }}" >
+                    <input type="text" name="cedula" class="form-control" value="{{ old('cedula',$persontrain->cedula) }}" >
                 </div>
                 <div class="form-group">
                     <label for="address">Direccion</label>
-                    <input type="text" name="address" class="form-control" value="{{ old('address',$personalTrainer->address) }}" >
+                    <input type="text" name="address" class="form-control" value="{{ old('address',$persontrain->address) }}" >
                 </div>
                 <div class="form-group">
                     <label for="phone">Telefono / Movil</label>
-                    <input type="text" name="phone" class="form-control" value="{{ old('phone',$personalTrainer->phone) }}" >
+                    <input type="text" name="phone" class="form-control" value="{{ old('phone',$persontrain->phone) }}" >
                 </div>
                 {{-- este campo el admin genera una pass para cada personaltariner y asignarle el rol , luego el empleado debe cambiarla  --}}
                 <div class="form-group">

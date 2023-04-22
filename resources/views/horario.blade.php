@@ -1,10 +1,8 @@
 @extends('layouts.panel')
 
 @section('content')
-    {{-- ruta para guardar la ruta del archivo horario --}}
-    <form action="{{ url('/horario') }}" method="POST">
+    <form action=" {{ url('/horario') }}"method="POST">
         @csrf
-
         <div class="card shadow">
             <div class="card-header border-0">
                 <div class="row align-items-center">
@@ -12,7 +10,7 @@
                         <h3 class="mb-0">Gestionar Horario</h3>
                     </div>
                     <div class="col text-right">
-                        <button type="submit" class="btn btn-sm btn-primary">Guardar Cambios</button>
+                        <button class="btn btn-sm btn-primary"> Guardar cambios</button>
                     </div>
                 </div>
             </div>
@@ -23,18 +21,19 @@
                         {{ session('notificacion') }}
                     </div>
                 @endif
-    {{-- mostrar mensaje de notificacion de error  --}}
-                 @if (session('erros'))
+                   {{-- mostrar mensaje de notificacion de error  --}}
+                @if (session('errors'))
                     <div class="alert alert-danger" role="alert">
-                    Los cambios estan guardados pero se encontraron las siguientes novedades:
-                    <ul>
-                      @foreach (sessions('errors') as $error )
-                          <li>  {{ $error }}</li>
-                      @endforeach
-                    </ul>
+                        Los cambios estan guardados pero se encontraron las siguientes novedades:
+                        <ul>
+                            @foreach (sessions('errors') as $error)
+                                <li> {{ $error }}</li>
+                            @endforeach
+                        </ul>
                         {{ session('notificacion') }}
                     </div>
                 @endif
+
 
             </div>
 
@@ -50,129 +49,102 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {{-- mostrar los servicios que vienen del metodo sendData de la vista create servicios, inyectados en el controller en la vista  y metodo index --}}
+
+                        @foreach ($horarios as $key => $horario)
+                            <tr>
+                                <th>
+                                    {{ $days[$key] }}
+                                </th>
+                                <td>
+                                    <label class="custom-toggle">
+                                        {{-- $key var que guarda posicion de los dias  --}}
+                                        <input type="checkbox" name="active[]" value{{ $key }}
+                                            @if ($horario->active) checked> @endif> <span
+                                            class="custom-toggle-slider rounded-circle"></span>
+                                    </label>
+                                </td>
+
+
+
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <select class="form-control" name="morning_start[]">
+                                              
+                                                    @for ($i = 8; $i <= 11; $i++)
+                                                        <option value="{{ ($i < 10 ? '0' : '') . $i }}:00" {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
+                                                            @if ($i.':00 AM' == $horario->morning_start) selected @endif>
+                                                            {{ $i }}:00 AM </option>
+                                                        <option value="{{ ($i < 10 ? '0' : '') . $i }}:00"
+                                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
+                                                            @if ($i.':30 AM' == $horario->morning_start) selected  @endif>
+                                                             {{ $i }}:30 AM </option>
+                                                        
+                                                     @endfor     
+                                                 </select>        
+                                         </div>
+
+                                        <div class="col">
+                                            <select class="form-control" name="morning_end[]">
+                                                @for ($i = 8; $i <= 11; $i++)
+                                                    <option value="{{ ($i < 10 ? '0' : '') . $i }}:00"
+                                                        @if ($i.':00 PM' == $horario->morning_end) selected @endif>
+                                                        {{ $i }}:00 AM</option>
+                                                    <option value="{{ ($i < 10 ? '0' : '') . $i }}:00"
+                                                     @if ($i.':30 PM' == $horario->morning_end) selected @endif>
+                                                     {{ $i }}:30 AM </option>
+                                                   
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </td>
+
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                           <select class="form-control" name="afternoon_start[]">
+                                    @for ($i = 2; $i <= 11; $i++)
+                                        <option value="{{ $i+12 }}:00"
+                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
+                                            @if ($i.':00 PM' == $horario->afternoon_start) selected @endif>
+                                              {{ $i }}:00 PM </option>
+                                          <option value="{{ $i+12 }}:30"
+                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
+                                            @if ($i.':30 PM' == $horario->afternoon_start) selected @endif>
+                                              {{ $i }}:30 PM </option>
+                                     @endfor        
+                                    </select>
+                                   
+                                </div>
+
+                                        <div class="col">
+                                            <select class="form-control" name="afternoon_end[]">
+                                                @for ($i = 2; $i <= 11; $i++)
+                                                    <option value="{{ $i+12 }}:00"
+                                                    @if ($i.':00 PM' == $horario->afternoon_start) selected @endif>
+                                                     {{ $i }}:00 PM </option>
+                                                    <option value="{{ $i + 12 }}:30"
+                                                    @if ($i.':30 PM' == $horario->afternoon_start) selected @endif>
+                                                     {{ $i }}:00 PM </option>
+                                                @endfor
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                </td>
+                        @endforeach
+
 
                     </tbody>
                 </table>
             </div>
 
-            @foreach ($horarios as $key->$horario)
-                <tr>
-                    {{-- se pone en days la posicion que tiene le dia en la var key --}}
-                    <th>{{ $days[$key] }}</th>
-                    <td>
-                        <label class="custom-toggle">
-                            {{-- $key var que guarda posicion de los dias  --}}
-                            <input type="checkbox" name="active[]" value{{ $key }}
-                                @if ($horario->active) checked> @endif <span
-                                class="custom-toggle-slider rounded-circle"></span>
-                        </label>
-                    </td>
-
-                    <td>
-                        {{-- seleccionar las horas para la citas conun for DE LA MAÑNA --}}
-                        <div class="row">
-                            <div class="col">
-                                <select class="form-control" name="morning_start[]">
-                                    @for ($i = 8; $i <= 11; $i++)
-                                        <option value="{{ ($i < 10 ? '0' : '') . $i }}: 00">{{ $i }}:00 AM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':00 AM' == $horario->morning_start)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:00 AM
-                                        </option>
-
-                                        <option value="{{($i < 10 ? '0' : '') . $i }}: 50">{{ $i }}:50 AM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':50 AM' == $horario->morning_start)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:50 AM
-                                        </option>
-                                    @endfor
-
-                                </select>
-                            </div>
-
-                            <div class="col">
-                                <select class="form-control" name="morning_end[]">
-                                    @for ($i = 8; $i <= 11; $i++)
-                                        <option value="{{($i < 10 ? '0' : '') . $i }}:00">{{ $i }}:00 AM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':00 AM' == $horario->morning_end)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:00 AM
-                                        </option>
-
-                                        </option>
-                                        <option value="{{($i < 10 ? '0' : '') . $i }}:50 ">{{ $i }}:50 AM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':50 AM' == $horario->morning_end)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:50 AM
-                                        </option>
-                                    @endfor
-
-                                </select>
-                            </div>
-                        </div>
-                    </td>
-
-                    <td>
-                        {{-- seleccionar las horas para la citas DE LA TARDE con un for  --}}
-                        <div class="row">
-                            <div class="col">
-                                <select class="form-control" name="afternoon_start[]">
-                                    @for ($i = 2; $i <= 11; $i++)
-                                        <option value="{{ $i + 12 }}:00">{{ $i }}:00 PM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':00 AM' == $horario->afternoon_start)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:00 AM
-
-                                        </option>
-                                        <option value="{{ $i + 12 }}:50">{{ $i }}:50 PM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':50 AM' == $horario->afternoon_start)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:50 AM
-
-                                        </option>
-                                    @endfor
-
-                                </select>
-                            </div>
-
-                            <div class="col">
-                                <select class="form-control" name="afternoon_end[]">
-                                    {{-- el +12 es por que solo aacepta el formato de 24h --}}
-                                    @for ($i = 2; $i <= 11; $i++)
-                                        <option value="{{ $i + 12 }}:00">{{ $i }}:00 PM
-                                            {{-- compara los formatos de fechas y poner el valido que se ha configurado en el metod controller --}}
-                                            @if ($i . ':00 AM' == $horario->afternoon_end)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:00 AM
-                                        </option>
-                                        <option value="{{ $i + 12 }}:50">{{ $i }}:50 PM
-                                            @if ($i . ':50 AM' == $horario->afternoon_end)
-                                                selected
-                                            @endif>
-                                            {{ $i }}:50 AM
-                                        </option>
-                                    @endfor
-
-                                </select>
-                            </div>
-                        </div>
-                    </td>
-
-                </tr>
-            @endforeach
+            {{-- <div class="card-body">
+        {{  $persontrains->links() }}
+        </div> --}}
         </div>
     </form>
 @endsection

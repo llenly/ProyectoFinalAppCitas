@@ -36,26 +36,26 @@
                 <tbody>
                     {{-- mostrar los servicios que vienen del metodo sendData de la vista create servicios, inyectados en el controller en la vista  y metodo index --}}
 
-                    @foreach ($personalTrainers as $personalTrainer)
+                    @foreach ($persontrains as $persontrain)
                         <tr>
                             <th scope="row">
-                                {{ $personalTrainer->name }}
+                                {{ $persontrain->name }}
                             </th>
                             <td>
-                                {{ $personalTrainer->email }}
+                                {{ $persontrain->email }}
                             </td>
                             <td>
-                                {{ $personalTrainer->cedula }}
+                                {{ $persontrain->cedula }}
                             </td>
                             {{-- <td>
                                 precio
                             </td> --}}
                             <td>
 
-                                <form action="{{ url('/personalTrainers/' . $personalTrainer->id) }}" method='POST'>
+                                <form action="{{ url('/personalTrainers/' . $persontrain->id) }}" method='POST'>
                                     @csrf
                                     @method('DELETE')
-                                    <a href="{{ url('/personalTrainers/' . $personalTrainer->id . '/edit') }}"
+                                    <a href="{{ url('/personalTrainers/' . $persontrain->id . '/edit') }}"
                                         class="btn btn-sm btn-primary">Editar</a>
                                     <button type="submit" class="btn btn-sm btn-danger">Eliminar</a>
                                 </form>
@@ -70,7 +70,7 @@
         </div>
 
         <div class="card-body">
-        {{  $personalTrainers->links() }}
+        {{  $persontrains->links() }}
         </div>
     </div>
 @endsection

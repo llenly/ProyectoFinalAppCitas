@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class PersonalTrainMiddleware
+class PersonalTrainerMiddleware
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class PersonalTrainMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if(auth()->user()-role =='persontrain')
-           return $next($request);
+        if(auth()->user()->role = "persontrain")
+        return $next($request);
 
-           return redirect('/');
+        return redirect('/');
     }
 }

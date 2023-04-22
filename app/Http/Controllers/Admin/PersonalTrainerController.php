@@ -18,8 +18,8 @@ class PersonalTrainerController extends Controller
     {
         //
         //var para hacer un forecha en el form de las vistas index
-        $personalTrainers=User::personalTrainers()->paginate(5);
-        return view('personalTrainers.index', compact('personalTrainers'));
+        $persontrains=User::persontrains()->paginate(5);
+        return view('personalTrainers.index', compact('persontrains'));
     }
 
     /**
@@ -70,7 +70,7 @@ class PersonalTrainerController extends Controller
         User::create(
             $request->only('name','email','cedula','address','phone')
             +[
-                'role'=> 'personaltrainer',
+                'role'=> 'persontrain',
                  'password'=> bcrypt($request->input('password'))
             ]
         );
@@ -102,8 +102,8 @@ class PersonalTrainerController extends Controller
      */
     public function edit($id)
     {
-        $personalTrainer = User::personalTrainers()->findOrFail($id);
-        return view('personalTrainers.edit', compact('personalTrainer'));
+        $persontrain = User::persontrains()->findOrFail($id);
+        return view('personalTrainers.edit', compact('persontrain'));
     }
 
     /**
@@ -136,7 +136,7 @@ class PersonalTrainerController extends Controller
         ];
         //mostramos los mesnajes de validadcion 
         $this->validate($request, $rules, $messages);
-        $user = User::personalTrainers()->findOrFail($id);
+        $user = User::persontrains()->findOrFail($id);
 
         
 
@@ -167,7 +167,7 @@ class PersonalTrainerController extends Controller
      */
     public function destroy($id)
     {
-        $user = User::personalTrainers()->findOrFail($id);
+        $user = User::persontrains()->findOrFail($id);
         $personalName = $user->name;
         $user->delete();
         $notificacion = "El personal trainer  $personalName se ha eliminado correctamente ";
